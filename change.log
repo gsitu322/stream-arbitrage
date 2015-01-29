@@ -1,0 +1,43 @@
+1.0
+    -Initial push of code
+
+1.1
+    -Moved notifications for autobuy into buy function
+
+1.2
+    -Added button to go to steam market so we can check the active listings and market history
+
+1.3
+    -fixed notifications
+
+
+2.0
+    -cleaned up code and moved code to functions
+    -moved variable to object
+    -added live status to see buying and selling
+
+2.1
+   -added button market button
+
+2.2
+    -fixed bug - autobuy off after 1st buy
+
+2.2.1
+    -fixed bug - autobuy auto buy values are now ints/doubles
+
+2.2.2
+    -add readonly to the text fields
+
+2.2.3
+    -removed console logs
+    -changed needed profit to >=
+
+2.2.4
+    -removed console.log
+    -added function to remove Souvenier items from market
+
+2.2.5
+    -added function to remmove stickers and modify selling of items
+
+2.3
+    -fixed steam purchace to include quanitity and added a filter to not sell knives and griffins
