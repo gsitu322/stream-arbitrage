@@ -33,7 +33,7 @@ $J( document ).ready(function() {
 	$J('.market_listing_table_header').append('<span class="market_listing_right_cell market_listing_low_price" style="width: 91px;">PROFIT</span>');
 	$J('.market_listing_seller').remove();
 
-	/** modify page for UI */
+	/** modify page for added UI  */
 	$J('#BG_bottom').prepend(
 		'<div style="padding: 10px; float: none;height: 25px;" class="item_market_action_button_green">' +
 			'<div class="market_listing_right_cell market_listing_action_buttons" style="float: none; width: 100%; height: 25px;">' +
@@ -127,8 +127,12 @@ $J( document ).ready(function() {
 	);
 
 	//LoadMarketHistory(0, 10);
+
+	/** initiate market variables */
 	var g_bBusyLoadingMarketHistory = false;
 	var g_oMyHistory = null;
+
+	/** load market history */
 	function LoadMarketHistory(start, count)
 	{
 		if ( g_bBusyLoadingMarketHistory )
@@ -178,10 +182,8 @@ $J( document ).ready(function() {
 		});
 	}
 
-	//return 0;
 
-
-	/** toggle autobuy */
+	/** Toggle Autobuy */
 	$J('.toggle-auto-buy').on('click', function(){
 		autobuy = !autobuy;
 		if(autobuy){
@@ -206,7 +208,7 @@ $J( document ).ready(function() {
 		}
 	});
 
-	/** toggle notification */
+	/** Toggle Notification */
 	$J('.toggle-notification').on('click', function(){
 		notifications = !notifications;
 		if(notifications){
@@ -216,7 +218,7 @@ $J( document ).ready(function() {
 		}
 	});
 
-	/** toggle logs */
+	/** Toggle Logs */
 	$J('.toggle-logs').on('click', function(){
 		showLogs = !showLogs;
 		if(showLogs){
@@ -241,7 +243,7 @@ $J( document ).ready(function() {
 	}
 
 
-	/** toggle history */
+	/** Toggle history */
 	$J('.toggle-history').on('click', function(){
 		showHistory = !showHistory;
 		if(showHistory){
@@ -281,7 +283,6 @@ $J( document ).ready(function() {
 
 	/** Run the recent listing search */
 	LoadRecentListings('sellListingsMore', 'sell_new', 'sellListingRows');
-
 	function LoadRecentListings(id, type, rows) {
 		if (g_bBusyLoadingMore) {
 			return;
@@ -289,6 +290,7 @@ $J( document ).ready(function() {
 
 		g_bBusyLoadingMore = true;
 
+		/** AJAX to get new listings */
 		new Ajax.Request('http://steamcommunity.com/market/recent', {
 			method: 'get',
 			parameters: {
@@ -303,6 +305,7 @@ $J( document ).ready(function() {
 						g_rgRecents[type]['time'] = response.last_time;
 						g_rgRecents[type]['listing'] = response.last_listing;
 
+						/** Parse each response to see if it meets our criteria to buy */
 						$J.each($J(response.results_html), function (key, htmlContent) {
 							if (key % 2 == 0) {
 								if ($J(htmlContent)[0].innerHTML.match(/Counter-Strike/g) && !$J(htmlContent)[0].innerHTML.match(/Souvenir|Sticker|Holo|Music/g) ) {
@@ -366,6 +369,7 @@ $J( document ).ready(function() {
 							}
 						});
 
+						/** add the item to HTML so we can view them in browser */
 						$J('#sellListingRows .market_listing_table_header').after("<br class='market-listing-breaks'/>");
 
 						MergeWithAssetArray(response.assets);
@@ -377,6 +381,8 @@ $J( document ).ready(function() {
 			},
 			onComplete: function () {
 				g_bBusyLoadingMore = false;
+
+				/** clean up the listing to show no more than 30 listings */
 				if($J('.market_listing_row').length > 30){
 					$J('.market_listing_row').remove();
 					$J('.market-listing-breaks').remove();
@@ -392,9 +398,8 @@ $J( document ).ready(function() {
 	}
 });
 
-
+/** prints the item listing to the browser with a timestamp so the user knows when the item was listed */
 function printHtml(listingData, htmlContent){
-
 	var dateTime = getTime();
 	$J($J(htmlContent)[0]).find('.market_listing_game_name').html(dateTime['date'] + ' ' + dateTime['time']);
 
@@ -438,6 +443,7 @@ function printHtml(listingData, htmlContent){
 function buyListing(listingData){
 	var m_nTotal = listingData['listingInfo']['converted_price'] + listingData['listingInfo']['converted_fee'];
 
+	/** AJAX to buy the item from the steam market */
 	$J.ajax({
 		url: 'https://steamcommunity.com/market/buylisting/' + listingData['listingId'],
 		type: 'POST',
@@ -485,7 +491,7 @@ function getInventory(listingData){
 		var descriptionId = res['rgInventory'][last]['classid'] + '_' + res['rgInventory'][last]['instanceid'];
 		var marketHashName = res['rgDescriptions'][descriptionId]['market_hash_name'];
 
-
+		/** Create the data for AJAX sell */
 		listingData['selling']['assetId'] = res['rgInventory'][last]['id'];
 		listingData['selling']['descriptionId'] = res['rgInventory'][last]['classid'] + '_' + res['rgInventory'][last]['instanceid'];
 		listingData['selling']['marketHashName'] = res['rgDescriptions'][listingData['selling']['descriptionId']]['market_hash_name'];
@@ -531,6 +537,7 @@ function sellItem(listingData){
 	});
 }
 
+/** write to the activity log when actions or errors occur */
 function writeToLog(msg){
 
 	var time = getTime();
@@ -543,6 +550,7 @@ function writeToLog(msg){
 	);
 }
 
+/** get the time for timestamps */
 function getTime(){
 	var dateTime = new Date();
 	var date = dateTime.getFullYear() + '-' +dateTime.getDate() +'-'+ dateTime.getMonth();
