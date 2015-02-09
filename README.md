@@ -11,9 +11,9 @@ Taking this information I've constructed a Google Chrome Extension that allows t
 
 
 #How It Works
-When the plugin is active it will modify the HTML of the Steam Community Market page to remove unnecessary information other than most recently listed items. The plugin also adds a new tool bar for profit margin, start button, max amount to spend, and an activity log.
+When the plug-in is active it will modify the HTML of the Steam Community Market page to remove unnecessary information other than most recently listed items. The plug-in also adds a new tool bar for profit margin, start button, max amount to spend, and an activity log.
 
-These are the steps of the plugin
+These are the steps of the plug-in
 
 1. Wait for user to initiate the search.
 2. Get the profit margin and max price from user.
