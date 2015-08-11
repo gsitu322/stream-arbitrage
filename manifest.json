@@ -1,12 +1,36 @@
 {
   "manifest_version": 2,
 
-  "name": "Steam Recent",
-  "description": "Refreshes Steam Recent",
+  "name": "Steam Market Arbitrage",
+  "description": "Steam Market Arbitrage",
   "version": "2.3",
 
+  "browser_action": {
+    "default_icon": {
+        "200": "images/icon200.png",
+        "19": "images/icon19.png",
+        "39": "images/icon39.png"
+      },
+    "default_title": "Steam Market Arbitrage",
+    "default_popup": "popup.html"
+  },
+
+  "icons": {
+    "19": "images/icon19.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+
+  "options_page": "options.html",
+  "options_ui": {
+    "chrome_style": true,
+    "page": "options.html"
+  },
+
+
   "permissions": [
-    "http://steamcommunity.com/market/"
+    "http://steamcommunity.com/market/",
+    "storage"
   ],
   "content_scripts": [ {
       "matches": [ "http://steamcommunity.com/market/"],

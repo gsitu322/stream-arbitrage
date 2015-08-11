@@ -34,10 +34,14 @@
 
 2.2.4
     -removed console.log
-    -added function to remove Souvenier items from market
+    -added function to remove Souvenir items from market
 
 2.2.5
-    -added function to remmove stickers and modify selling of items
+    -added function to remove stickers and modify selling of items
 
 2.3
-    -fixed steam purchace to include quanitity and added a filter to not sell knives and griffins
+    -fixed steam purchase to include quantity and added a filter to not sell knives and griffins
+
+2.4
+    -updated plugin for new steam market trade restrictions
+    -refactored and updated plugin to work with steam market again
