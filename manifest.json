@@ -3,7 +3,7 @@
 
   "name": "Steam Market Arbitrage",
   "description": "Steam Market Arbitrage",
-  "version": "2.3",
+  "version": "2.4",
 
   "browser_action": {
     "default_icon": {
@@ -37,5 +37,6 @@
       "js": [ "jq.js", "contextscript.js"],
       "run-at": "document_end"
   } ],
+  
   "web_accessible_resources": ["jq.js", "steamRecent.js"]
 }

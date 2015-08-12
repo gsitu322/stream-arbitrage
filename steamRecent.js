@@ -11,13 +11,7 @@ var maxlistPrice = 2.00;
 var maxlistPrice2 = 2.00;
 var neededProfit = 0.25;
 
-$J( document ).ready(function() {
-	/** auto check steam agreement */
-	$J('#market_buynow_dialog_accept_ssa').prop('checked', true);
-
-	/** Stop popular AJAX Call */
-	g_bMarketWindowHidden = true;
-
+function cleanupDom(){
 	/** clean up the page */
 	$J('#popularItemsTable').remove();
 	$J('#sellListingsTable').show();
@@ -29,11 +23,19 @@ $J( document ).ready(function() {
 	$J('.market_large_tab_well').remove();
 	$J('#footer').remove();
 	$J('.market_page_left').removeClass('market_page_left');
-	$J('.market_listing_table_header').append('<span class="market_listing_right_cell market_listing_low_price" style="width: 91px;">LOW PRICE</span>');
-	$J('.market_listing_table_header').append('<span class="market_listing_right_cell market_listing_low_price" style="width: 91px;">PROFIT</span>');
+	$J('#sellListingRows').html("").prepend('<div class="market_listing_table_header">'+
+	'<div class="market_listing_right_cell market_listing_their_price">BUY</div>'+
+	'</div>');
+	$J('.market_listing_table_header').append('<div class="market_listing_right_cell market_listing_low_price" style="width: 100px;">PRICE</div>');
+	$J('.market_listing_table_header').append('<div class="market_listing_right_cell market_listing_low_price" style="width: 100px;">LOW PRICE</div>');
+	$J('.market_listing_table_header').append('<div class="market_listing_right_cell market_listing_low_price" style="width: 100px;">PROFIT</div>');
+	$J('.market_listing_table_header').append('<div><span class="market_listing_header_namespacer"></span>NAME</div>');
 	$J('.market_listing_seller').remove();
+}
 
-	/** modify page for added UI  */
+
+
+function modifyPageUI(){
 	$J('#BG_bottom').prepend(
 		'<div style="padding: 10px; float: none;height: 25px;" class="item_market_action_button_green">' +
 			'<div class="market_listing_right_cell market_listing_action_buttons" style="float: none; width: 100%; height: 25px;">' +
@@ -87,13 +89,14 @@ $J( document ).ready(function() {
 				'</div> '+
 			'</div>' +
 		'</div>'+
+
 		'<div class="market_large_tab_well_sep"></div>'+
-		'<div style="padding: 10px;height: 250px;overflow-y: scroll;overflow-x: hidden; display: none" class="steam-market-logs">Market Logs</div>'+
-		'<div style="padding: 10px;height: 700px; display: none" class="steam-market-history">' +
-			'<div id="tabContentsMyMarketHistory" class="my_listing_section market_content_block">	' +
-				'<div id="tabContentsMyMarketHistoryTable" class="market_home_listing_table market_home_main_listing_table">' +
-					'<div id="tabContentsMyMarketHistoryRows">' +
-						'<div class="market_listing_table_header"> ' +
+			'<div style="padding: 10px;height: 250px;overflow-y: scroll;overflow-x: hidden; display: none" class="steam-market-logs">Market Logs</div>'+
+				'<div style="padding: 10px;height: 700px; display: none" class="steam-market-history">' +
+					'<div id="tabContentsMyMarketHistory" class="my_listing_section market_content_block">	' +
+					'<div id="tabContentsMyMarketHistoryTable" class="market_home_listing_table market_home_main_listing_table">' +
+						'<div id="tabContentsMyMarketHistoryRows">' +
+							'<div class="market_listing_table_header"> ' +
 							'<div class="market_listing_left_cell market_listing_gainorloss"></div> ' +
 							'<div class="market_listing_right_cell market_listing_their_price">PRICE</div> ' +
 							'<div class="market_listing_right_cell market_listing_whoactedwith">WITH</div> ' +
@@ -106,25 +109,37 @@ $J( document ).ready(function() {
 					'</div> ' +
 					'<div id="tabContentsMyMarketHistory_ctn" class="market_paging" style="">' +
 						'<div class="market_paging_summary">Showing <span id="tabContentsMyMarketHistory_start">1</span>-<span id="tabContentsMyMarketHistory_end">10</span> of <span id="tabContentsMyMarketHistory_total">695</span> results</div> ' +
-							'<div class="market_paging_controls" id="tabContentsMyMarketHistory_controls"> ' +
-								'<span id="tabContentsMyMarketHistory_btn_prev" class="pagebtn disabled">&lt;</span> ' +
-									'<span id="tabContentsMyMarketHistory_links">' +
-										'<span class="market_paging_pagelink active">1 </span>' +
-										'<span class="market_paging_pagelink">2 </span>' +
-										'<span class="market_paging_pagelink">3 </span>' +
-										'<span class="market_paging_pagelink">4 </span>' +
-										'<span class="market_paging_pagelink">5 </span>' +
-										'<span class="market_paging_pagelink">6 </span> ... ' +
-										'<span class="market_paging_pagelink">70 </span>' +
-									'</span>' +
-								'<span id="tabContentsMyMarketHistory_btn_next" class="pagebtn">&gt;</span> ' +
-							'</div> ' +
+						'<div class="market_paging_controls" id="tabContentsMyMarketHistory_controls"> ' +
+							'<span id="tabContentsMyMarketHistory_btn_prev" class="pagebtn disabled">&lt;</span> ' +
+							'<span id="tabContentsMyMarketHistory_links">' +
+							'<span class="market_paging_pagelink active">1 </span>' +
+							'<span class="market_paging_pagelink">2 </span>' +
+							'<span class="market_paging_pagelink">3 </span>' +
+							'<span class="market_paging_pagelink">4 </span>' +
+							'<span class="market_paging_pagelink">5 </span>' +
+							'<span class="market_paging_pagelink">6 </span> ... ' +
+							'<span class="market_paging_pagelink">70 </span>' +
+							'</span>' +
+							'<span id="tabContentsMyMarketHistory_btn_next" class="pagebtn">&gt;</span> ' +
+						'</div> ' +
 						'<div style="clear: both;">' +
 					'</div>' +
 				'</div> ' +
 			'</div>' +
 		'</div> '
 	);
+}
+
+$J( document ).ready(function() {
+	/** auto check steam agreement */
+	$J('#market_buynow_dialog_accept_ssa').prop('checked', true);
+
+	/** Stop popular AJAX Call */
+	g_bMarketWindowHidden = true;
+
+	/** clean up and modify page for added UI */
+	cleanupDom();
+	modifyPageUI();
 
 	//LoadMarketHistory(0, 10);
 
@@ -301,6 +316,7 @@ $J( document ).ready(function() {
 			onSuccess: function (transport) {
 				if (transport.responseJSON) {
 					var response = transport.responseJSON;
+
 					if (response.assets.length != 0) {
 						g_rgRecents[type]['time'] = response.last_time;
 						g_rgRecents[type]['listing'] = response.last_listing;
@@ -341,24 +357,22 @@ $J( document ).ready(function() {
 											dataType: "json"
 										}).done(function (res) {
 											if (res['success'] == true) {
-												listingData['lowPrice'] = parseFloat(res['lowest_price'].replace('&#36;', ''));
-												listingData['recieveLowPrice'] = parseFloat((listingData['lowPrice'] * .87).toFixed(2));
 
+												listingData['lowPrice'] = parseFloat(res['lowest_price'].replace('$', ''));
+												listingData['recieveLowPrice'] = parseFloat((listingData['lowPrice'] * .87).toFixed(2));
 
 												if (listingData['itemTotal'] < listingData['lowPrice']) {
 													listingData['profit'] = parseFloat((listingData['recieveLowPrice'] - listingData['itemTotal']).toFixed(2));
 
 													if (listingData['profit'] >= neededProfit && listingData['itemTotal'] < maxlistPrice && autobuy == true) {
 														buyListing(listingData);
-
 													}
-
-													/** Write to log if knife is profitable */
 													if(listingData['profit'] >= neededProfit && listingData['itemNameFormatted'].match(/Knife/g)){
 														writeToLog("Profitable Knife: <a href='http://steamcommunity.com/market/listings/730/" + listingData['itemNameFormatted'] + "'>" + listingData['itemNameFormatted'] + "</a> for " + (listingData['listingInfo']['converted_price'] + listingData['listingInfo']['converted_fee']) / 100 + ".");
 													}
-
 													printHtml(listingData, htmlContent);
+
+													/** Write to log if knife is profitable */
 												}
 											}
 										}).error(function (res) {
@@ -403,8 +417,11 @@ function printHtml(listingData, htmlContent){
 	var dateTime = getTime();
 	$J($J(htmlContent)[0]).find('.market_listing_game_name').html(dateTime['date'] + ' ' + dateTime['time']);
 
+
 	/** style the html */
 	inner = $J(htmlContent)[0].outerHTML;
+
+
 	inner = inner.replace('<div class="market_listing_item_name_block">',
 		'<div class="market_listing_right_cell market_listing_their_price market_lowest_price">' +
 			'<span class="market_table_value">' +
@@ -437,7 +454,6 @@ function printHtml(listingData, htmlContent){
 		alert("High Price!");
 	}
 }
-
 
 /** buy the item */
 function buyListing(listingData){
@@ -502,7 +518,8 @@ function getInventory(listingData){
 			url: 'http://steamcommunity.com/market/priceoverview/?country=US&currency=1&appid=730&market_hash_name=' + marketHashName,
 			dataType: "json"
 		}).done(function (res) {
-			var lowPrice = parseFloat(res['lowest_price'].replace('&#36;', '')).toFixed(2);
+
+			var lowPrice = parseFloat(res['lowest_price'].replace('$', '')).toFixed(2);
 			var sellPrice = ((lowPrice - .01) * .87).toFixed(2);
 			var completeSellPrice = parseInt(sellPrice * 100);
 			listingData['selling']['completeSellPrice'] = parseInt(sellPrice * 100);
