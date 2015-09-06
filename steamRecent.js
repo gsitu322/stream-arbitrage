@@ -11,6 +11,11 @@ var maxlistPrice = 2.00;
 var maxlistPrice2 = 2.00;
 var neededProfit = 0.25;
 
+
+function open_dialog_box(){
+	alert('listening');
+}
+
 function cleanupDom(){
 	/** clean up the page */
 	$J('#popularItemsTable').remove();
@@ -130,7 +135,17 @@ function modifyPageUI(){
 	);
 }
 
+function takeInData(text){
+	console.log(text);
+	for(var i = 0; i < $J(".steamjson").length - 1; i++){
+		$J($J(".steamjson")[i]).remove();
+	}
+
+	// process the data
+}
+
 $J( document ).ready(function() {
+
 	/** auto check steam agreement */
 	$J('#market_buynow_dialog_accept_ssa').prop('checked', true);
 

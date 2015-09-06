@@ -8,3 +8,18 @@ s.onload = function() {
     this.parentNode.removeChild(this);
 };
 (document.head||document.documentElement).appendChild(s);
+
+
+$(document).ready(function(){
+    setInterval(function(){
+         var s = document.createElement('script');
+        s.setAttribute('type', 'text/javascript');
+        s.setAttribute('class', 'steamjson');
+        s.setAttribute('time', $.now());
+        s.innerHTML = "takeInData('hello gordon');";
+
+
+        (document.head||document.documentElement).appendChild(s);
+
+    },5000);
+});

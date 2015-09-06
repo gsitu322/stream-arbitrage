@@ -5,14 +5,17 @@
   "description": "Steam Market Arbitrage",
   "version": "2.4",
 
+  "background": {
+    "scripts":["js/background.js"]
+  },
+
   "browser_action": {
     "default_icon": {
         "200": "images/icon200.png",
         "19": "images/icon19.png",
         "39": "images/icon39.png"
       },
-    "default_title": "Steam Market Arbitrage",
-    "default_popup": "popup.html"
+    "default_title": "Steam Market Arbitrage"
   },
 
   "icons": {
@@ -21,22 +24,17 @@
     "128": "images/icon128.png"
   },
 
-  "options_page": "options.html",
-  "options_ui": {
-    "chrome_style": true,
-    "page": "options.html"
-  },
-
-
   "permissions": [
     "http://steamcommunity.com/market/",
-    "storage"
+    "storage",
+    "tabs"
   ],
+
   "content_scripts": [ {
       "matches": [ "http://steamcommunity.com/market/"],
       "js": [ "jq.js", "contextscript.js"],
       "run-at": "document_end"
   } ],
-  
+
   "web_accessible_resources": ["jq.js", "steamRecent.js"]
 }
